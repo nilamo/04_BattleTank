@@ -8,17 +8,6 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("Player Controller Start"));
-	ATank* Tank = GetControlledTank();
-	if (Tank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player Controller with Tank: %s"), *(Tank->GetName()));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No tank :("));
-	}
 }
 
 void ATankPlayerController::Tick(float deltaSeconds)
@@ -43,7 +32,7 @@ void ATankPlayerController::AimTowardsCursor()
 	bool HitFound = GetSightRayHitLocation(OUT HitLocation);
 	if (HitFound)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Crosshair pointing at: %s"), *HitLocation.ToString());
+		Tank->AimAt(HitLocation);
 	}
 	else
 	{
