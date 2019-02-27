@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "TankBarrel.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -44,6 +45,14 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed)
 			FVector Normal = SuggestedVelocity.GetSafeNormal();
 			MoveBarrelToward(Normal);
 		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Bad Angle %s"), *SuggestedVelocity.ToString());
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No barrel attached, cannot aim!"));
 	}
 }
 
@@ -51,9 +60,10 @@ void UTankAimingComponent::MoveBarrelToward(FVector MoveTo)
 {
 	// set pitch rotation to the new vector for the barrel
 	// set yaw rotation to the new vector for the turret	
+	_Barrel->Elevate(5);
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * Barrel)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel * Barrel)
 {
 	_Barrel = Barrel;
 }
