@@ -34,10 +34,11 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed)
 			false,
 			0,
 			0,
-			ESuggestProjVelocityTraceOption::TraceFullPath,
+			ESuggestProjVelocityTraceOption::DoNotTrace
+			/*,
 			FCollisionResponseParams::DefaultResponseParam,
 			ActorsToIgnore,
-			true
+			true*/
 		);
 
 		if (VelocityFound)
@@ -45,22 +46,14 @@ void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed)
 			FVector Normal = SuggestedVelocity.GetSafeNormal();
 			MoveBarrelToward(Normal);
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Bad Angle %s"), *SuggestedVelocity.ToString());
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No barrel attached, cannot aim!"));
 	}
 }
 
 void UTankAimingComponent::MoveBarrelToward(FVector MoveTo)
 {
-	// set pitch rotation to the new vector for the barrel
-	// set yaw rotation to the new vector for the turret	
-	_Barrel->Elevate(5);
+	FRotator CurrentRotation = _Barrel->GetForwardVector().Rotation();
+	FRotator DeltaRotation = MoveTo.Rotation() - CurrentRotation;
+	_Barrel->Elevate(DeltaRotation.Pitch);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * Barrel)

@@ -6,6 +6,12 @@
 
 #define OUT
 
+ATankPlayerController::ATankPlayerController()
+{
+	PrimaryActorTick.bCanEverTick = true;
+
+}
+
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -34,10 +40,6 @@ void ATankPlayerController::AimTowardsCursor()
 	if (HitFound)
 	{
 		Tank->AimAt(HitLocation);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Crosshair looking off into space..."));
 	}
 }
 
@@ -90,8 +92,11 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookVector, FVector
 	if (HitFound)
 	{
 		HitLocation = HitResult.Location;
-		return true;
+	}
+	else
+	{
+		HitLocation = FVector::ZeroVector;
 	}
 
-	return false;
+	return true;
 }

@@ -17,6 +17,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 
 
 private:
+	ATankPlayerController();
 	void BeginPlay() override;
 	void Tick(float) override;
 
