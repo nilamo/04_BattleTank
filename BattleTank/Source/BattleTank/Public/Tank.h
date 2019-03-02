@@ -20,6 +20,9 @@ public:
 	ATank();
 	void AimAt(FVector);
 
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+		void Fire();
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrelReference(UTankBarrel* Barrel);
 	

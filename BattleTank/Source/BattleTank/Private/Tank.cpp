@@ -2,6 +2,7 @@
 
 #include "Public/Tank.h"
 #include "Public/TankAimingComponent.h"
+#include "Engine/World.h"
 
 // Sets default values
 ATank::ATank()
@@ -17,6 +18,11 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%f: Tank should fire."), GetWorld()->TimeSeconds);
 }
 
 void ATank::AimAt(FVector TargetLocation)
