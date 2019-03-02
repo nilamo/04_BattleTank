@@ -29,10 +29,14 @@ void ATank::SetBarrelReference(UTankBarrel * Barrel)
 	TankAimingComponent->SetBarrelReference(Barrel);
 }
 
+void ATank::SetTurretReference(UTankTurret* Turret)
+{
+	TankAimingComponent->SetTurretReference(Turret);
+}
+
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

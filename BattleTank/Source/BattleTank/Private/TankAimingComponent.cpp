@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -17,7 +18,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::AimAt(FVector TargetLocation, float LaunchSpeed)
 {
-	if (_Barrel)
+	if (_Barrel && _Turret)
 	{
 		// StaticMeshComponent
 		FVector BarrelLocation = _Barrel->GetSocketLocation(FName("Projectile"));
@@ -54,9 +55,18 @@ void UTankAimingComponent::MoveBarrelToward(FVector MoveTo)
 	FRotator CurrentRotation = _Barrel->GetForwardVector().Rotation();
 	FRotator DeltaRotation = MoveTo.Rotation() - CurrentRotation;
 	_Barrel->Elevate(DeltaRotation.Pitch);
+
+	FRotator CurrentAngle = _Turret->GetForwardVector().Rotation();
+	FRotator DeltaAngle = MoveTo.Rotation() - CurrentAngle;
+	_Turret->Spin(DeltaAngle.Yaw);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * Barrel)
 {
 	_Barrel = Barrel;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret * Turret)
+{
+	_Turret = Turret;
 }
