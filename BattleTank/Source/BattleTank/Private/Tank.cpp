@@ -24,15 +24,18 @@ void ATank::BeginPlay()
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%f: Tank should fire."), GetWorld()->TimeSeconds);
+	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > TimeToReload;
 
-	if (_Barrel)
+	if (_Barrel && bIsReloaded)
 	{
-		GetWorld()->SpawnActor<AProjectile>(
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBP,
 			_Barrel->GetSocketLocation(FName("Projectile")),
 			_Barrel->GetSocketRotation(FName("Projectile"))
 		);
+
+		Projectile->Launch(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
 	}
 }
 

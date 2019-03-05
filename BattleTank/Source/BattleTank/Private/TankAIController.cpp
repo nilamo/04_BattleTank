@@ -5,32 +5,19 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 
-void ATankAIController::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	ATank* Me = GetControlledTank();
-	ATank* Player = GetPlayerTank();
-	if (Me &&Player)
+	APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!PlayerPawn) { return; }
+
+	ATank* Me = Cast<ATank>(GetPawn());
+	ATank* Player = Cast<ATank>(PlayerPawn);
+	if (Me && Player)
 	{
 		FVector PlayerLocation = Player->GetActorLocation();
 		Me->AimAt(PlayerLocation);
+		Me->Fire();
 	}
-}
-
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	APawn* Pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!Pawn) { return nullptr; }
-	return Cast<ATank>(Pawn);
 }
