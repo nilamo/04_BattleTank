@@ -9,6 +9,7 @@
 class AProjectile;
 class UTankAimingComponent;
 class UTankBarrel;
+class UTankMovementComponent;
 class UTankTurret;
 
 UCLASS()
@@ -35,6 +36,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBP;
+
+protected:
+	UPROPERTY(BlueprintReadOnly)
+		UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:
 	// Called when the game starts or when spawned
