@@ -16,6 +16,8 @@ void ATankAIController::Tick(float DeltaTime)
 	ATank* Player = Cast<ATank>(PlayerPawn);
 	if (Me && Player)
 	{
+		MoveToActor(Player, 10);
+
 		FVector PlayerLocation = Player->GetActorLocation();
 		Me->AimAt(PlayerLocation);
 		Me->Fire();

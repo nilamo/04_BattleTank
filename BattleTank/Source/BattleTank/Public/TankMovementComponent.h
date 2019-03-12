@@ -23,6 +23,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void IntendMoveForward(float Throw);
 
+	UFUNCTION(BlueprintCallable)
+		void IntendTurnRight(float Throw);
+
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
 private:
 	UTankTrack* _LeftTrack=nullptr;
 	UTankTrack* _RightTrack=nullptr;

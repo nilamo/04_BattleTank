@@ -14,8 +14,25 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	if (_LeftTrack && _RightTrack)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Movement desired: %f"), Throw);
 		_LeftTrack->SetThrottle(Throw);
 		_RightTrack->SetThrottle(Throw);
 	}
+}
+
+void UTankMovementComponent::IntendTurnRight(float Throw)
+{
+	if (_LeftTrack && _RightTrack)
+	{
+		_LeftTrack->SetThrottle(Throw);
+		_RightTrack->SetThrottle(-Throw);
+	}
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	auto Forward = GetOwner()->GetActorForwardVector();
+	auto Diff = (Forward - MoveVelocity).GetSafeNormal();
+	IntendMoveForward(Diff.X + Diff.Y);
+	IntendTurnRight(Diff.Y);
+	UE_LOG(LogTemp, Warning, TEXT("Pathfinding movement request: %s to %s"), *GetOwner()->GetName(), *MoveVelocity.ToString());
 }
