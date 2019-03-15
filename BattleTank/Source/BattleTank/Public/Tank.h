@@ -41,6 +41,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 		UTankMovementComponent* TankMovementComponent = nullptr;
 
+	UPROPERTY(BlueprintReadOnly)
+		UTankAimingComponent* TankAimingComponent = nullptr;
+
 private:
 	// Called when the game starts or when spawned
 	void BeginPlay() override;
@@ -49,7 +52,6 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UTankBarrel* _Barrel = nullptr;
-	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	float TimeToReload = 3.0f;
 	double LastFireTime = 0;
