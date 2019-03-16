@@ -34,7 +34,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 	auto MoveDirection = MoveVelocity.GetSafeNormal();
 	auto ForwardMovement = FVector::DotProduct(Forward, MoveDirection);
 	auto TurningMovement = FVector::CrossProduct(Forward, MoveDirection);
-	UE_LOG(LogTemp, Warning, TEXT("Forward: %f, Turn: %s"), ForwardMovement, *TurningMovement.ToString());
+
 	IntendMoveForward(ForwardMovement);
 	IntendTurnRight(TurningMovement.Z);
 } 

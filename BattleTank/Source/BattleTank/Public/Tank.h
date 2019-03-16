@@ -25,12 +25,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 		void Fire();
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelReference(UTankBarrel* Barrel);
-	
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurretReference(UTankTurret* Turret);
-
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 100000;
 

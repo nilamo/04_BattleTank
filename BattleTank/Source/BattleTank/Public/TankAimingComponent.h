@@ -14,6 +14,12 @@ enum class EFiringStatus : uint8
 	Reloading
 };
 
+struct ProjectileLaunchLocation
+{
+	FVector Location;
+	FRotator Rotation;
+};
+
 class UTankBarrel;
 class UTankTurret;
 
@@ -26,13 +32,15 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	
+	UFUNCTION(BlueprintCallable, category = "Setup")
+		void Initialize(UTankBarrel* Barrel, UTankTurret* Turret);
+
 	void AimAt(FVector TargetLocation, float LaunchSpeed);
-	void SetBarrelReference(UTankBarrel* Barrel);
-	void SetTurretReference(UTankTurret* Turret);
+	ProjectileLaunchLocation GetLaunchLocation();
 
 protected:
 	UPROPERTY(BlueprintReadonly, Category="Setup")
-	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+	EFiringStatus FiringStatus = EFiringStatus::Aiming;
 
 
 private:
