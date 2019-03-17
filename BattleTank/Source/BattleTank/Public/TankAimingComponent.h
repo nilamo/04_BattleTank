@@ -20,6 +20,7 @@ struct ProjectileLaunchLocation
 	FRotator Rotation;
 };
 
+class AProjectile;
 class UTankBarrel;
 class UTankTurret;
 
@@ -35,16 +36,35 @@ public:
 	UFUNCTION(BlueprintCallable, category = "Setup")
 		void Initialize(UTankBarrel* Barrel, UTankTurret* Turret);
 
-	void AimAt(FVector TargetLocation, float LaunchSpeed);
-	ProjectileLaunchLocation GetLaunchLocation();
+	UFUNCTION(BlueprintCallable, category="Firing")
+	void AimAt(FVector TargetLocation);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float LaunchSpeed = 8000;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		void Fire();
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBP;
 
 protected:
 	UPROPERTY(BlueprintReadonly, Category="Setup")
-	EFiringStatus FiringStatus = EFiringStatus::Aiming;
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
 
 private:
+	void BeginPlay() override;
+	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
 	UTankBarrel* _Barrel = nullptr;
 	UTankTurret* _Turret = nullptr;
 	void MoveBarrelToward(FVector MoveTo);
+	bool IsBarrelMoving();
+	FVector CurrentlyAimingTo = FVector::ZeroVector;
+
+	float TimeToReload = 3.0f;
+	double LastFireTime = 0;
+
+	ProjectileLaunchLocation GetLaunchLocation();
 };

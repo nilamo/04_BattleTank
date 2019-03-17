@@ -29,7 +29,7 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::Launch(float Speed)
 {
-	if (ProjectileMovement)
+	if (ensure(ProjectileMovement))
 	{
 		ProjectileMovement->SetVelocityInLocalSpace(Speed * FVector::ForwardVector);
 		ProjectileMovement->Activate();

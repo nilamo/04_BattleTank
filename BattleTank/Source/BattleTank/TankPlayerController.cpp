@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
-#include "Public/Tank.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 
@@ -17,8 +16,8 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
 	}
@@ -35,22 +34,17 @@ void ATankPlayerController::Tick(float deltaSeconds)
 	AimTowardsCursor();
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankPlayerController::AimTowardsCursor()
 {
+	UTankAimingComponent* TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	// move the barrel a little closer to where the pointer's pointing
-	ATank* Tank = GetControlledTank();
-	if (!Tank) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 
 	FVector HitLocation;
 	bool HitFound = GetSightRayHitLocation(OUT HitLocation);
 	if (HitFound)
 	{
-		Tank->AimAt(HitLocation);
+		TankAimingComponent->AimAt(HitLocation);
 	}
 }
 
