@@ -121,7 +121,13 @@ void UTankAimingComponent::MoveBarrelToward(FVector MoveTo)
 
 	FRotator CurrentAngle = _Turret->GetForwardVector().Rotation();
 	FRotator DeltaAngle = MoveTo.Rotation() - CurrentAngle;
-	_Turret->Spin(DeltaAngle.Yaw);
+	float Rotation = DeltaAngle.Yaw;
+	if (FMath::Abs(Rotation) > 180)
+	{
+		Rotation *= -1;
+	}
+
+	_Turret->Spin(Rotation);
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
