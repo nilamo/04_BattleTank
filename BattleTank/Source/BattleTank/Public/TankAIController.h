@@ -12,7 +12,11 @@ UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
-	
+
+protected:
+	UPROPERTY(EditDefaultsOnly, category = "Setup")
+		float AcceptanceRadius = 8000;
+
 private:
 	void Tick(float) override;
 };

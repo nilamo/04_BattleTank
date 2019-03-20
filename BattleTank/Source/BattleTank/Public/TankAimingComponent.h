@@ -48,6 +48,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBP;
 
+	EFiringStatus GetFiringState() const;
+
 protected:
 	UPROPERTY(BlueprintReadonly, Category="Setup")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;

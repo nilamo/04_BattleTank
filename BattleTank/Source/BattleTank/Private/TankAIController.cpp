@@ -20,10 +20,13 @@ void ATankAIController::Tick(float DeltaTime)
 	UTankAimingComponent* AimingComp = Me->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(Me && Player && AimingComp))
 	{
-		MoveToActor(Player, 10);
+		MoveToActor(Player, AcceptanceRadius);
 
 		FVector PlayerLocation = Player->GetActorLocation();
 		AimingComp->AimAt(PlayerLocation);
-		AimingComp->Fire();
+		if (AimingComp->GetFiringState() == EFiringStatus::Locked)
+		{
+			AimingComp->Fire();
+		}
 	}
 }

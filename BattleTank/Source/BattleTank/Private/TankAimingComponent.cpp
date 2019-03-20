@@ -101,6 +101,11 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+EFiringStatus UTankAimingComponent::GetFiringState() const
+{
+	return FiringStatus;
+}
+
 ProjectileLaunchLocation UTankAimingComponent::GetLaunchLocation()
 {
 	ProjectileLaunchLocation LaunchFrom;
