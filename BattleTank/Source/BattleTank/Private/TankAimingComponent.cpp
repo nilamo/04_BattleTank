@@ -15,6 +15,11 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+int32 UTankAimingComponent::RemainingAmmo() const
+{
+	return CurrentAmmo;
+}
+
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -27,7 +32,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > TimeToReload;
-	if (bIsReloaded)
+	if (CurrentAmmo <= 0)
+	{
+		FiringStatus = EFiringStatus::OutOfAmmo;
+	}
+	else if (bIsReloaded)
 	{
 		if (IsBarrelMoving())
 		{
@@ -86,7 +95,7 @@ void UTankAimingComponent::AimAt(FVector TargetLocation)
 
 void UTankAimingComponent::Fire()
 {
-	if (FiringStatus!=EFiringStatus::Reloading && ensure(ProjectileBP))
+	if ((FiringStatus == EFiringStatus::Aiming || FiringStatus == EFiringStatus::Locked) && ensure(ProjectileBP))
 	{
 		auto LaunchLocation = GetLaunchLocation();
 
@@ -98,6 +107,7 @@ void UTankAimingComponent::Fire()
 
 		Projectile->Launch(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		CurrentAmmo -= 1;
 	}
 }
 

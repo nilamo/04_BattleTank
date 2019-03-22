@@ -11,7 +11,8 @@ enum class EFiringStatus : uint8
 {
 	Locked,
 	Aiming,
-	Reloading
+	Reloading,
+	OutOfAmmo
 };
 
 struct ProjectileLaunchLocation
@@ -54,6 +55,11 @@ protected:
 	UPROPERTY(BlueprintReadonly, Category="Setup")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		int32 RemainingAmmo() const;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		int32 CurrentAmmo = 3;
 
 private:
 	void BeginPlay() override;
