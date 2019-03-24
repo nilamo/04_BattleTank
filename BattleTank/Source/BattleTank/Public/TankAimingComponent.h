@@ -46,8 +46,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		void Fire();
 
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
-		TSubclassOf<AProjectile> ProjectileBP;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
+		TSubclassOf<AProjectile> ProjectileBP = nullptr;
 
 	EFiringStatus GetFiringState() const;
 
@@ -59,7 +59,10 @@ protected:
 		int32 RemainingAmmo() const;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		int32 CurrentAmmo = 3;
+		int32 CurrentAmmo = 300;
+
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+		float TimeToReload = 0.30f;
 
 private:
 	void BeginPlay() override;
@@ -71,7 +74,6 @@ private:
 	bool IsBarrelMoving();
 	FVector CurrentlyAimingTo = FVector::ZeroVector;
 
-	float TimeToReload = 3.0f;
 	double LastFireTime = 0;
 
 	ProjectileLaunchLocation GetLaunchLocation();
