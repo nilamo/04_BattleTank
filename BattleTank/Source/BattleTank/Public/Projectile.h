@@ -8,6 +8,7 @@
 
 class UParticleSystemComponent;
 class UProjectileMovementComponent;
+class URadialForceComponent;
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
@@ -32,6 +33,15 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 		UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		URadialForceComponent* ExplosionForce = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+		float DestroyDelay = 10.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+		float BlastDamage = 12.0f;
 
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;

@@ -24,11 +24,15 @@ private:
 	ATankPlayerController();
 	void BeginPlay() override;
 	void Tick(float) override;
+	virtual void SetPawn(APawn* Pawn) override;
 
 	void AimTowardsCursor();
 	bool GetSightRayHitLocation(FVector&) const;
 	bool GetLookDirection(FVector2D, FVector&) const;
 	bool GetLookVectorHitLocation(FVector, FVector&) const;
+
+	UFUNCTION()
+		void OnDeath();
 
 	UPROPERTY(EditDefaultsOnly)
 		float CrosshairXLocation = 0.5;

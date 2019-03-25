@@ -19,4 +19,9 @@ protected:
 
 private:
 	void Tick(float) override;
+
+	virtual void SetPawn(APawn* Pawn) override;
+
+	UFUNCTION()
+	void OnDeath();
 };

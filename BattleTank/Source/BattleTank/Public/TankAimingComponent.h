@@ -62,7 +62,7 @@ protected:
 		int32 CurrentAmmo = 300;
 
 	UPROPERTY(EditDefaultsOnly, Category="Setup")
-		float TimeToReload = 0.30f;
+		float TimeToReload = 2.0f;
 
 private:
 	void BeginPlay() override;

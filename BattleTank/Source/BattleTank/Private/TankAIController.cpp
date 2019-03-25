@@ -30,3 +30,25 @@ void ATankAIController::Tick(float DeltaTime)
 		}
 	}
 }
+
+void ATankAIController::SetPawn(APawn* Pawn)
+{
+	Super::SetPawn(Pawn);
+
+	if (Pawn)
+	{
+		ATank* Tank = Cast<ATank>(Pawn);
+		if (!ensure(Tank)) { return; }
+
+		Tank->OnDeathEvent.AddUniqueDynamic(this, &ATankAIController::OnDeath);
+	}
+}
+
+void ATankAIController::OnDeath()
+{
+	APawn* Pawn = GetPawn();
+	if (Pawn)
+	{
+		Pawn->DetachFromControllerPendingDestroy();
+	}
+}

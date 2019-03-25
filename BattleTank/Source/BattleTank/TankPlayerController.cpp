@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Tank.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 
@@ -27,6 +28,19 @@ void ATankPlayerController::BeginPlay()
 	}
 }
 
+void ATankPlayerController::SetPawn(APawn* Pawn)
+{
+	Super::SetPawn(Pawn);
+
+	if (Pawn)
+	{
+		ATank* Tank = Cast<ATank>(Pawn);
+		if (!ensure(Tank)) { return; }
+
+		Tank->OnDeathEvent.AddUniqueDynamic(this, &ATankPlayerController::OnDeath);
+	}
+}
+
 void ATankPlayerController::Tick(float deltaSeconds)
 {
 	Super::Tick(deltaSeconds);
@@ -36,6 +50,9 @@ void ATankPlayerController::Tick(float deltaSeconds)
 
 void ATankPlayerController::AimTowardsCursor()
 {
+	APawn* Pawn = GetPawn();
+	if (!Pawn) { return; }
+
 	UTankAimingComponent* TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	// move the barrel a little closer to where the pointer's pointing
 	if (!ensure(TankAimingComponent)) { return; }
@@ -104,4 +121,10 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookVector, FVector
 	}
 
 	return true;
+}
+
+void ATankPlayerController::OnDeath()
+{
+	StartSpectatingOnly();
+//	UE_LOG(LogTemp, Warning, TEXT("%f: Player dead :("), GetWorld()->GetTimeSeconds());
 }
